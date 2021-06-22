@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Spotify AB
+ * Copyright 2020 The Backstage Authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -70,7 +70,10 @@ export class CookieCutter implements TemplaterBase {
       [intermediateDir]: '/output',
     };
 
-    const cookieCutterInstalled = await commandExists('cookiecutter');
+    // the command-exists package returns `true` or throws an error
+    const cookieCutterInstalled = await commandExists('cookiecutter').catch(
+      () => false,
+    );
     if (cookieCutterInstalled) {
       await runCommand({
         command: 'cookiecutter',

@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Spotify AB
+ * Copyright 2020 The Backstage Authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,6 +35,7 @@ describe('CookieCutter Templater', () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
+    commandExists.mockRejectedValue(null);
   });
 
   it('should write a cookiecutter.json file with the values from the entity', async () => {
@@ -228,7 +229,7 @@ describe('CookieCutter Templater', () => {
       };
 
       jest.spyOn(fs, 'readdir').mockResolvedValueOnce(['newthing'] as any);
-      commandExists.mockImplementationOnce(() => () => true);
+      commandExists.mockResolvedValueOnce(true);
 
       const templater = new CookieCutter({ containerRunner });
       await templater.run({
